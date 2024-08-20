@@ -1,0 +1,52 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id Int @id @default(autoincrement())
+  name String
+  email String
+  password String
+  role Int @default(0)
+  created_at DateTime @default(now())
+  properties Properties[]
+  bookings Bookings[]
+}
+
+model Properties {
+  id Int @id @default(autoincrement())
+  user_id Int @unique
+  user User @relation(fields: [user_id], references: [id])
+  title String
+  description String @db.Text
+  city String
+  country String
+  price Decimal
+  max_guests Int
+  created_at DateTime @default(now())
+  bookings Bookings[]
+}
+
+model Bookings {
+  id Int @id @default(autoincrement())
+  user_id Int @unique
+  user User @relation(fields: [user_id], references: [id])
+  property_id Int @unique
+  property Properties @relation(fields: [property_id], references: [id])
+  check_in_date DateTime
+  check_out_date DateTime
+  total_price Decimal
+  status String
+  created_at DateTime
+}
