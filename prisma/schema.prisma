@@ -36,6 +36,7 @@ model Properties {
   max_guests Int
   created_at DateTime @default(now())
   bookings Bookings[]
+  EquipmentProperties EquipmentProperties[]
 }
 
 model Bookings {
@@ -49,4 +50,18 @@ model Bookings {
   total_price Decimal
   status String
   created_at DateTime
+}
+
+model Equipments {
+  id Int @id @default(autoincrement())
+  name String
+  EquipmentProperties EquipmentProperties[]
+}
+
+model EquipmentProperties {
+  id Int @id @default(autoincrement())
+  property_id Int @unique
+  equipment_id Int @unique
+  property Properties @relation(fields: [property_id], references: [id])
+  equipment Equipments @relation(fields: [equipment_id], references: [id])
 }
