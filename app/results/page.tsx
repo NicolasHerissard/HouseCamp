@@ -1,7 +1,14 @@
+'use client'
+
 import Header from "../components/header";
 import franceIMG from '../../asset/france.jpg';
+import { useState, useEffect } from "react";
+import { getProperties } from "@/lib/db/properties";
+import { Property } from "../api/properties/route";
 
 export default function Results() {
+
+    const [properties, setProperties] = useState<Property[]>([])
 
     let items = [
         {name: "test"},
@@ -14,26 +21,15 @@ export default function Results() {
         {name: "test"},
     ];
 
-    let properties = [
-        {title: "test", description: "test", city: "Paris", country: "France", price: 150, max_guests: 2},
-        {title: "test", description: "test", city: "Paris", country: "Angleterre", price: 350, max_guests: 8},
-        {title: "test", description: "test", city: "Paris", country: "Norvège", price: 50, max_guests: 4},
-        {title: "test", description: "test", city: "Paris", country: "Italie", price: 120, max_guests: 3},
-        {title: "test", description: "test", city: "Paris", country: "France", price: 180, max_guests: 2},
-        {title: "test", description: "test", city: "Paris", country: "Écosse", price: 150, max_guests: 2},
-        {title: "test", description: "test", city: "Paris", country: "Suède", price: 160, max_guests: 1},
-        {title: "test", description: "test", city: "Paris", country: "Espagne", price: 70, max_guests: 1},
-        {title: "test", description: "test", city: "Paris", country: "Norvège", price: 50, max_guests: 4},
-        {title: "test", description: "test", city: "Paris", country: "Italie", price: 120, max_guests: 3},
-        {title: "test", description: "test", city: "Paris", country: "France", price: 180, max_guests: 2},
-        {title: "test", description: "test", city: "Paris", country: "Écosse", price: 150, max_guests: 2},
-        {title: "test", description: "test", city: "Paris", country: "Suède", price: 160, max_guests: 1},
-        {title: "test", description: "test", city: "Paris", country: "Norvège", price: 50, max_guests: 4},
-        {title: "test", description: "test", city: "Paris", country: "Italie", price: 120, max_guests: 3},
-        {title: "test", description: "test", city: "Paris", country: "France", price: 180, max_guests: 2},
-        {title: "test", description: "test", city: "Paris", country: "Écosse", price: 150, max_guests: 2},
-        {title: "test", description: "test", city: "Paris", country: "Suède", price: 160, max_guests: 1},
-    ];
+    async function fetchProperties() {
+        const data = await getProperties()
+        console.log(data)
+        setProperties(data)
+    }
+
+    useEffect(() => {
+        fetchProperties()
+    }, [])
 
     return (
         <div className="">
