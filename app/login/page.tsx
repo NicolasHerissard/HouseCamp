@@ -1,6 +1,7 @@
 'use client'
 
-import { signIn, useSession, signOut } from "next-auth/react"
+import { signIn, useSession } from "next-auth/react"
+import { useState } from "react";
 
 export default function Login() {
 
@@ -8,17 +9,27 @@ export default function Login() {
 
     console.log(session)
 
+    const [name, setName] = useState("name")
+    const [email, setEmail] = useState("dfdf@e.com")
+    const [password, setPassword] = useState("password")
+
+    async function handleLogin() {
+        const res = await signIn('credentials', {
+            redirect: false,
+            email: email,
+            password: password,
+        })
+
+        if(!res?.error) {
+            console.log("Logged In !")
+        } else {
+            console.log("Login Failed")
+        }
+    }
+
     return (
         <div>
-            <div>
-                <button onClick={() => signIn('github')}>Connexion avec Github</button>
-            </div>
-            <div>
-                <button onClick={() => signIn('google')}>Connexion avec Google</button>
-            </div>
-            <div>
-               <button onClick={() => {signOut()}}>Deconnexion</button>
-            </div>
+            <button onClick={handleLogin}>Connexion</button>
         </div>
     )
 }
