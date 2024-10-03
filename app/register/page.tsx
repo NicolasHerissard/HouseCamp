@@ -1,37 +1,26 @@
 'use client'
 
-import { signIn, useSession } from "next-auth/react"
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { getUserDetails } from "@/lib/useUser";
+import { useState } from "react"
+import { postRegister } from "@/lib/db/register"
+import { useRouter } from "next/navigation"
+import { signIn } from "next-auth/react"
 
-export default function Login() {
 
-    const {data: session} = useSession();
-    const router = useRouter()
+export default function Register() {
 
-    console.log("Session : " + session?.user)
-
+    const [name, setName] = useState("")
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
+    const router = useRouter()
 
-    async function handleLogin(e: any) {
-        e.preventDefault()
-        const res = await signIn('credentials', {
-            redirect: false,
-            email: email,
-            password: password,
-        })
-    
-        if(!res?.error) {
-            console.log("Logged In !")
-            let user = await getUserDetails(email)
-            console.log(user)
-            localStorage.setItem('user', JSON.stringify(user))
-            router.push("/results")
-        } else {
-            console.log("Login Failed")
-        }
+    async function handleRegister() {
+        await postRegister(name, email, password)
+
+        setName('')
+        setEmail('')
+        setPassword('')
+
+        router.push('/login')
     }
 
     return (
@@ -44,6 +33,18 @@ export default function Login() {
                 </p>
                 </div>
                 <div className="rounded-md shadow-sm space-y-4">
+                    <div>
+                    <label htmlFor="name" className="sr-only">Name</label>
+                    <input
+                        onChange={(e) => {setName(e.target.value)}}
+                        id="name"
+                        name="name"
+                        type="text"
+                        autoComplete="name"
+                        className="appearance-none rounded-md w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                        placeholder="Nom d'utilisateur"
+                    />
+                    </div>
                     <div>
                     <label htmlFor="email" className="sr-only">Email</label>
                     <input
@@ -69,38 +70,12 @@ export default function Login() {
                     />
                     </div>
                 </div>
-                <div className="flex space-x-5">
-                    <div>
-                        <button className="border border-black rounded h-14 p-1" onClick={() => {signIn('google')}}>Connexion avec Google</button>
-                    </div>
-                    <div>
-                        <button className="border border-black rounded h-14 p-1" onClick={() => {signIn('github')}}>Connexion avec Github</button>
-                    </div>
-                </div>
-                <div className="flex items-center justify-between">
-                    <div className="flex items-center">
-                    <input
-                        id="remember_me"
-                        name="remember_me"
-                        type="checkbox"
-                        className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
-                    />
-                    <label htmlFor="remember_me" className="ml-2 block text-sm text-gray-900">
-                        Se souvenir de moi
-                    </label>
-                    </div>
-                    <div className="text-sm">
-                    <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">
-                        Mot de passe oublié?
-                    </a>
-                    </div>
-                </div>
                 <div>
                     <button
-                    onClick={(e) => {handleLogin(e)}}
+                    onClick={handleRegister}
                     className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                     >
-                    Se connecter
+                    S'inscrire
                     </button>
                 </div>
                 <div className="text-center">

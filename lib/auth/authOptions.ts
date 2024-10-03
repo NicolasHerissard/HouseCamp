@@ -3,11 +3,12 @@ import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { PrismaClient } from "@prisma/client";
+import type { NextAuthOptions } from "next-auth";
 import axios from "axios";
 
 const prisma = new PrismaClient();
 
-export const authOptions = {
+export const authOptions: NextAuthOptions = {
     providers: [
         GithubProvider({
             clientId: process.env.GITHUB_ID as string,
@@ -33,24 +34,30 @@ export const authOptions = {
             },
             async authorize(credentials) {
                 try {
-                    const {email, password} = credentials || {}
 
+                    if(!credentials || !credentials.email || !credentials.password) {
+                        throw new Error("Invalid credentials");
+                    }
+
+                    const {email, password} = credentials || {}
                     const res = await axios.post('http://localhost:3000/api/auth/login', {
                         'email': email,
                         'password': password,
+                    }, {
                         headers: { "Content-Type": "application/json" },
                     })
 
                     const user = await res.data
 
                     if(user) {
+                        console.log("Credentials saved successfully")
                         return user
                     }
 
                     return null
                 }
                 catch (err: any) {
-                    console.error("Erreur de l'authentification : " + err.message);
+                    console.error("Erreur d'authentification : " + err.message);
 
                     return null;
                 }
@@ -60,32 +67,5 @@ export const authOptions = {
     pages: {
         signIn: '/login',
     },
-    callbacks: {
-        async session(session: any, user: any) {
-            session.user = user;
-            return session;
-        },
-        async jwt(token: any, user: any) {
-            if (user) {
-            token.id = user.id;
-            }
-            return token;
-        },
-    },
     adapter: PrismaAdapter(prisma),
 }
-
-// const res = await axios.post('http://localhost:3000/api/users', {
-//     'name': credentials?.name,
-//     'email': credentials?.email,
-//     'password': credentials?.password,
-//     headers: { "Content-Type": "application/json" },
-// });
-
-// const user = await res.data;
-
-// if(user) {
-//     return user;
-// }
-
-// return null;

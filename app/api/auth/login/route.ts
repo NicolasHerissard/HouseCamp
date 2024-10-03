@@ -15,9 +15,13 @@ export async function POST(req: Request) {
             }
         })
 
-        return NextResponse.json(user);
+        if (!user) {
+            throw new Error("Utilisateur non trouvé");
+        }
+
+        return NextResponse.json(user, {status: 200});
     }
     catch (err: any) {
-        return new NextResponse("Erreur api login : " + err.message);
+        return new NextResponse("Erreur api login : " + err.message, {status: 500});
     }
 }

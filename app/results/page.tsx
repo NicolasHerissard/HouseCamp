@@ -9,6 +9,8 @@ import { Property } from "../api/properties/route";
 export default function Results() {
 
     const [properties, setProperties] = useState<Property[]>([])
+    let user = localStorage.getItem('user')
+    console.log(user)
 
     let items = [
         {name: "test"},
