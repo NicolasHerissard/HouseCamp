@@ -5,13 +5,12 @@ import franceIMG from '../../asset/france.jpg';
 import { useState, useEffect } from "react";
 import { getProperties } from "@/lib/db/properties";
 import { Property } from "../api/properties/route";
+import { UserDetails } from "@/lib/useUser";
 
 export default function Results() {
 
     const [properties, setProperties] = useState<Property[]>([])
-    let user = localStorage.getItem('user')
-    console.log(user)
-
+    
     let items = [
         {name: "test"},
         {name: "test"},
@@ -25,7 +24,6 @@ export default function Results() {
 
     async function fetchProperties() {
         const data = await getProperties()
-        console.log(data)
         setProperties(data)
     }
 
@@ -87,7 +85,7 @@ export default function Results() {
                                     <p className="text-sm text-gray-500">{i.description}</p>
                                 </div>
                                 <div className="flex-1 flex flex-col">
-                                    <span className="text-lg font-medium text-gray-700">{i.price} € / nuit</span>
+                                    <span className="text-lg font-medium text-gray-700">{i.price.toString()} € / nuit</span>
                                     <span className="text-sm text-gray-500">{i.city}, {i.country}</span>
                                 </div>
                                 <div className="flex flex-col text-right">

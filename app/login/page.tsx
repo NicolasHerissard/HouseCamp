@@ -1,21 +1,20 @@
 'use client'
 
 import { signIn, useSession } from "next-auth/react"
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
-import { getUserDetails } from "@/lib/useUser";
+import { useUser } from "@/lib/useUser";
 
 export default function Login() {
 
     const {data: session} = useSession();
     const router = useRouter()
-
-    console.log("Session : " + session?.user)
+    const {getUserDetails} = useUser()
 
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
 
-    async function handleLogin(e: any) {
+    async function handleLogin(e: FormEvent) {
         e.preventDefault()
         const res = await signIn('credentials', {
             redirect: false,
@@ -25,9 +24,8 @@ export default function Login() {
     
         if(!res?.error) {
             console.log("Logged In !")
-            let user = await getUserDetails(email)
-            console.log(user)
-            localStorage.setItem('user', JSON.stringify(user))
+            let u = await getUserDetails(email)
+            localStorage.setItem("user", JSON.stringify(u))
             router.push("/results")
         } else {
             console.log("Login Failed")
@@ -71,10 +69,10 @@ export default function Login() {
                 </div>
                 <div className="flex space-x-5">
                     <div>
-                        <button className="border border-black rounded h-14 p-1" onClick={() => {signIn('google')}}>Connexion avec Google</button>
+                        <button className="border border-black rounded h-14 p-1" onClick={() => {signIn('google')}} disabled>Connexion avec Google</button>
                     </div>
                     <div>
-                        <button className="border border-black rounded h-14 p-1" onClick={() => {signIn('github')}}>Connexion avec Github</button>
+                        <button className="border border-black rounded h-14 p-1" onClick={() => {signIn('github')}} disabled>Connexion avec Github</button>
                     </div>
                 </div>
                 <div className="flex items-center justify-between">
@@ -106,7 +104,7 @@ export default function Login() {
                 <div className="text-center">
                 <p className="text-sm text-gray-600">
                     Pas encore de compte?{' '}
-                    <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">
+                    <a href="/register" className="font-medium text-indigo-600 hover:text-indigo-500">
                     Inscrivez-vous
                     </a>
                 </p>

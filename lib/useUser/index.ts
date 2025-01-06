@@ -1,8 +1,7 @@
-'use server'
+'use client'
 
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
+import axios from "axios";
+import { useState, useEffect } from "react";
 
 export type UserDetails = {
     id: number,
@@ -13,57 +12,23 @@ export type UserDetails = {
     created_at: Date
 }
 
-export async function useUser() {
-    //const [user, setUser] = useState<UserDetails[] | null>(null);
+export function useUser() {
+    const [user, setUser] = useState<UserDetails | null>(null);
 
     async function getUserDetails(email: string) {
-        let user = await prisma.user.findMany({
-            where: {
-                email: email
-            }
-        })
-    
-        if(!user) {
-            return null
-        }
-    
-        const details: UserDetails[] = user.map(u => ({
-            id: u.id,
-            name: u.name,
-            email: u.email,
-            password: u.password,
-            role: u.role,
-            created_at: u.created_at
-        }))
-        
-        return details
+        let res = await axios.get('http://localhost:3000/api/users/byEmail?email=' + email)
+
+        const data: UserDetails = await res.data
+
+        return data
     }
+
+    useEffect(() => {
+        
+    }, [])
 
     return {
-        //user, 
+        user, 
         getUserDetails
     }
-}
-
-export async function getUserDetails(email: string) {
-    let user = await prisma.user.findMany({
-        where: {
-            email: email
-        }
-    })
-
-    if(!user) {
-        return null
-    }
-
-    const details: UserDetails[] = user.map(u => ({
-        id: u.id,
-        name: u.name,
-        email: u.email,
-        password: u.password,
-        role: u.role,
-        created_at: u.created_at
-    }))
-    
-    return details
 }
