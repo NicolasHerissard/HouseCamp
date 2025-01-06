@@ -19,7 +19,7 @@ export default function Sidebar() {
                         <h1 className="text-2xl font-bold">Mon profil</h1>
                         <a href="/results/profile/informations">Modifier mes informations</a>
                         <a href="#">Modifier le mot de passe</a>
-                        <a href="#">Supprimer mon compte</a>
+                        <a href="/results/profile/supprimer-compte">Supprimer mon compte</a>
                     </div>
                 </div>
             </div>
