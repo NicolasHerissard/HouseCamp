@@ -42,3 +42,28 @@ export async function GET() {
         return new NextResponse("Erreur méthode GET : " + err.message);
     }
 }
+
+export async function POST(req: Request) {
+    try {
+        
+        const { user_id, title, description, city, country, price, max_guests } = await req.json();
+        const newProperty = await prisma.properties.create({
+            data: {
+                user_id: user_id,
+                title: title,
+                description: description,
+                city: city,
+                country: country,
+                price: parseFloat(price),
+                max_guests: parseInt(max_guests),
+            }
+        })
+
+        return NextResponse.json(newProperty);
+    }
+    catch (err: any) {
+        return new NextResponse("Erreur méthode POST : " + err.message, {
+            status: 500
+        });
+    }
+}
