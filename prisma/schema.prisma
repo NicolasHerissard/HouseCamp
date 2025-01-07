@@ -70,6 +70,11 @@ model EquipmentProperties {
   equipment Equipments @relation(fields: [equipment_id], references: [id])
 }
 
+model Villes_france {
+  id Int @id @default(autoincrement())
+  name String
+}
+
 model Account {
   id                 String    @id @default(cuid())
   userId              Int    @map("user_id")
