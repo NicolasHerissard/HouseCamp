@@ -70,10 +70,48 @@ model EquipmentProperties {
   equipment Equipments @relation(fields: [equipment_id], references: [id])
 }
 
-model Villes_france {
-  id Int @id @default(autoincrement())
-  name String
+model Ville {
+  villeId               Int     @id @default(autoincrement()) @map("ville_id")
+  villeDepartement      String? @map("ville_departement")
+  villeSlug             String? @unique @map("ville_slug")
+  villeNom              String? @map("ville_nom")
+  villeNomSimple        String? @map("ville_nom_simple")
+  villeNomReel          String? @map("ville_nom_reel")
+  villeNomSoundex       String? @map("ville_nom_soundex")
+  villeNomMetaphone     String? @map("ville_nom_metaphone")
+  villeCodePostal       String? @map("ville_code_postal")
+  villeCommune          String? @map("ville_commune")
+  villeCodeCommune      String  @map("ville_code_commune")
+  villeArrondissement   Int?    @map("ville_arrondissement")
+  villeCanton           String? @map("ville_canton")
+  villeAmdi             Int?    @map("ville_amdi")
+  villePopulation2010   Int?    @map("ville_population_2010")
+  villePopulation1999   Int?    @map("ville_population_1999")
+  villePopulation2012   Int?    @map("ville_population_2012")
+  villeDensite2010      Int?    @map("ville_densite_2010")
+  villeSurface          Float?  @map("ville_surface")
+  villeLongitudeDeg     Float?  @map("ville_longitude_deg")
+  villeLatitudeDeg      Float?  @map("ville_latitude_deg")
+  villeLongitudeGrd     String? @map("ville_longitude_grd")
+  villeLatitudeGrd      String? @map("ville_latitude_grd")
+  villeLongitudeDms     String? @map("ville_longitude_dms")
+  villeLatitudeDms      String? @map("ville_latitude_dms")
+  villeZmin             Int?    @map("ville_zmin")
+  villeZmax             Int?    @map("ville_zmax")
+
+  @@map("villes_france_free")
+  @@unique([villeCodeCommune, villeSlug])
+  @@index([villeDepartement])
+  @@index([villeNom])
+  @@index([villeNomReel])
+  @@index([villeCodePostal])
+  @@index([villeLongitudeDeg, villeLatitudeDeg])
+  @@index([villeNomSoundex])
+  @@index([villeNomMetaphone])
+  @@index([villePopulation2010])
+  @@index([villeNomSimple])
 }
+
 
 model Account {
   id                 String    @id @default(cuid())

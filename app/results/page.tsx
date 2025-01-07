@@ -78,7 +78,7 @@ export default function Results() {
                 {/* Résultats */}
                 <div className="border border-black w-5/6 h-full ml-6 overflow-y-auto rounded-lg p-6 space-y-5">
                     {
-                        properties.map((i, index) => 
+                        properties.length > 0 ? properties.map((i, index) => 
                             <div key={index} className="border border-black w-full rounded-lg h-16 flex items-center justify-between p-10 shadow-md shadow-gray-400 hover:shadow-lg transition-shadow duration-200 ease-in-out">
                                 <div className="flex flex-col w-1/4">
                                     <h3 className="text-xl font-semibold text-gray-800">{i.title}</h3>
@@ -93,7 +93,8 @@ export default function Results() {
                                     <button className="mt-2 bg-blue-500 w-28 h-10 rounded-md text-white hover:bg-blue-600 transition-colors duration-200 ease-in-out" type="submit">Voir plus</button>
                                 </div>
                             </div>
-                        )
+                        ) : 
+                        <p>Aucune propriétées trouvées</p>
                     }
                 </div>
             </div>
