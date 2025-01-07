@@ -7,6 +7,7 @@ import { getVilles } from "@/lib/db/villes/france"
 import { getPropertiesById } from "@/lib/db/properties/byId"
 import { UserDetails } from "@/lib/useUser"
 import { addProperty } from "@/lib/db/properties/ajouter"
+import { deleteProperty } from "@/lib/db/properties/supprimer"
 
 export default function AjouterLogements() {
 
@@ -41,6 +42,11 @@ export default function AjouterLogements() {
         else {
             
         }
+    }
+
+    async function SupprimerProperty(id: string) {
+        await deleteProperty(parseInt(id))
+        fetchProperties()
     }
 
     // async function fetchVilles(ville: string) {
@@ -189,12 +195,13 @@ export default function AjouterLogements() {
                     <table className="table-auto w-full border-collapse border border-gray-200 shadow-lg rounded-md">
                         <thead>
                             <tr className="bg-gray-100 text-left text-gray-600 uppercase text-sm">
-                            <th className="py-2 px-4 border border-gray-200">Titre</th>
-                            <th className="py-2 px-4 border border-gray-200">Description</th>
-                            <th className="py-2 px-4 border border-gray-200">Ville</th>
-                            <th className="py-2 px-4 border border-gray-200">Pays</th>
-                            <th className="py-2 px-4 border border-gray-200">Prix</th>
-                            <th className="py-2 px-4 border border-gray-200">Personnes</th>
+                                <th className="py-2 px-4 border border-gray-200">Titre</th>
+                                <th className="py-2 px-4 border border-gray-200">Description</th>
+                                <th className="py-2 px-4 border border-gray-200">Ville</th>
+                                <th className="py-2 px-4 border border-gray-200">Pays</th>
+                                <th className="py-2 px-4 border border-gray-200">Prix</th>
+                                <th className="py-2 px-4 border border-gray-200">Personnes</th>
+                                <th className="py-2 px-4 border border-gray-200">Actions</th> 
                             </tr>
                         </thead>
                         <tbody>
@@ -216,6 +223,9 @@ export default function AjouterLogements() {
                                 </td>
                                 <td className="py-2 px-4 border border-gray-200">
                                 {propertie.max_guests}
+                                </td>
+                                <td className="py-2 px-4 border border-gray-200">
+                                    <button onClick={() => {SupprimerProperty(propertie.id.toString())}} className="bg-blue-500 hover:bg-blue-600 w-28 h-10 rounded-md text-white">Supprimer</button>
                                 </td>
                             </tr>
                             ))}
