@@ -11,15 +11,11 @@ export async function GET(req: Request, { params }: { params: { id: string } }) 
             return NextResponse.json({ error: 'Id non valide' }, { status: 400 });
         }
 
-        const properties = await prisma.properties.findMany({
+        const properties = await prisma.properties.findUnique({
             where: {
-                user_id: id,
+                id: id,
             },
         });
-
-        if (properties.length === 0) {
-            return NextResponse.json({ error: 'Aucune propriété trouvée pour cet utilisateur' }, { status: 404 });
-        }
 
         return NextResponse.json(properties);
     } catch (err: any) {

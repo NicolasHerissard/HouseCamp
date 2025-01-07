@@ -90,7 +90,7 @@ export default function Results() {
                                 </div>
                                 <div className="flex flex-col text-right">
                                     <span className="text-sm text-gray-500">{i.max_guests} personnes</span>
-                                    <button className="mt-2 bg-blue-500 w-28 h-10 rounded-md text-white hover:bg-blue-600 transition-colors duration-200 ease-in-out" type="submit">Voir plus</button>
+                                    <button onClick={() => {window.location.href = `/results/details/${i.id}`}} className="mt-2 bg-blue-500 w-28 h-10 rounded-md text-white hover:bg-blue-600 transition-colors duration-200 ease-in-out" type="submit">Voir plus</button>
                                 </div>
                             </div>
                         ) : 
