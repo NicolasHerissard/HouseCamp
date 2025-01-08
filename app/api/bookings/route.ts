@@ -3,6 +3,20 @@ import { NextResponse } from "next/server";
 
 const prisma = new PrismaClient();
 
+export async function GET() {
+    try {
+        const bookings = await prisma.bookings.findMany()
+    
+        return NextResponse.json(bookings)
+    }
+    catch (err: any) {
+        console.error("Erreur API:", err.message);
+        return NextResponse.json({
+            error: err.message
+        })
+    }
+}
+
 export async function POST(req: Request) {
     try {
         const { user_id, property_id, check_in_date, check_out_date, total_price } = await req.json();

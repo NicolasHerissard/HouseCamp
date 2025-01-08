@@ -241,7 +241,7 @@ export default function AjouterLogements() {
                                     <td className="py-2 px-4 border border-gray-200">{propertie.country}</td>
                                     <td className="py-2 px-4 border border-gray-200">{propertie.address}</td>
                                     <td className="py-2 px-4 border border-gray-200">
-                                    {propertie.price.toString()} €
+                                    {propertie.price?.toString()} €
                                     </td>
                                     <td className="py-2 px-4 border border-gray-200">
                                     {propertie.max_guests}

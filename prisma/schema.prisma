@@ -52,7 +52,7 @@ model Bookings {
   property Properties @relation(fields: [property_id], references: [id])
   check_in_date DateTime
   check_out_date DateTime
-  total_price Decimal
+  total_price Int
   created_at DateTime
 }
 
