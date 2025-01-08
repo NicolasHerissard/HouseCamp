@@ -16,6 +16,7 @@ export default function AjouterLogements() {
     const [description, setDescription] = useState("")
     const [city, setCity] = useState("")
     const [country, setCountry] = useState("")
+    const [address, setAddress] = useState("")
     const [price, setPrice] = useState(0)
     const [maxGuests, setMaxGuests] = useState(0)
     const [picture, setPicture] = useState("")
@@ -30,12 +31,13 @@ export default function AjouterLogements() {
 
     async function AjouterProperty() {
         if(name.length > 0 && description.length > 0 && city.length > 0 && country.length > 0 && price > 0 && maxGuests > 0) {
-            await addProperty(user.id, name, description, city, country, price, maxGuests)
+            await addProperty(user.id, name, description, city, country, address, price, maxGuests)
             fetchProperties()
             setName("")
             setDescription("")
             setCity("")
             setCountry("")
+            setAddress("")
             setPrice(0)
             setMaxGuests(0)
         }
@@ -131,6 +133,23 @@ export default function AjouterLogements() {
                     </div>
                     <div>
                         <label
+                        htmlFor="address"
+                        className="block text-sm font-medium text-gray-700"
+                        >
+                        Adresse
+                        </label>
+                        <input
+                        value={address}
+                        onChange={(e) => {setAddress(e.target.value)}}
+                        type="text"
+                        name="address"
+                        id="address"
+                        className="mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                        placeholder="Adresse"
+                        />
+                    </div>
+                    <div>
+                        <label
                         htmlFor="price"
                         className="block text-sm font-medium text-gray-700"
                         >
@@ -188,51 +207,55 @@ export default function AjouterLogements() {
             </div>
 
             {/* Liste de mes logements */}
-            <div className="flex flex-col space-y-4 p-14">
+            <div className="flex flex-col w-2/3 space-y-4 bg-white p-8 shadow-lg rounded-lg">
                 <h1>Mes logements</h1>
-                {
-                    properties.length > 0 ? 
-                    <table className="table-auto w-full border-collapse border border-gray-200 shadow-lg rounded-md">
-                        <thead>
-                            <tr className="bg-gray-100 text-left text-gray-600 uppercase text-sm">
-                                <th className="py-2 px-4 border border-gray-200">Titre</th>
-                                <th className="py-2 px-4 border border-gray-200">Description</th>
-                                <th className="py-2 px-4 border border-gray-200">Ville</th>
-                                <th className="py-2 px-4 border border-gray-200">Pays</th>
-                                <th className="py-2 px-4 border border-gray-200">Prix</th>
-                                <th className="py-2 px-4 border border-gray-200">Personnes</th>
-                                <th className="py-2 px-4 border border-gray-200">Actions</th> 
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {properties.map((propertie, index) => (
-                            <tr
-                                key={index}
-                                className={`hover:bg-gray-50 ${
-                                index % 2 === 0 ? "bg-white" : "bg-gray-50"
-                                }`}
-                            >
-                                <td className="py-2 px-4 border border-gray-200">{propertie.title}</td>
-                                <td className="py-2 px-4 border border-gray-200">
-                                {propertie.description}
-                                </td>
-                                <td className="py-2 px-4 border border-gray-200">{propertie.city}</td>
-                                <td className="py-2 px-4 border border-gray-200">{propertie.country}</td>
-                                <td className="py-2 px-4 border border-gray-200">
-                                {propertie.price.toString()} €
-                                </td>
-                                <td className="py-2 px-4 border border-gray-200">
-                                {propertie.max_guests}
-                                </td>
-                                <td className="py-2 px-4 border border-gray-200">
-                                    <button onClick={() => {SupprimerProperty(propertie.id.toString())}} className="bg-blue-500 hover:bg-blue-600 w-28 h-10 rounded-md text-white">Supprimer</button>
-                                </td>
-                            </tr>
-                            ))}
-                        </tbody>
-                    </table> : 
-                    <p>Aucune propriétées trouvées</p>
-                }
+                <div className="overflow-y-auto max-h-[500px]">
+                    {
+                        properties.length > 0 ? 
+                        <table className="table-auto w-full border-collapse border border-gray-200 shadow-lg rounded-md">
+                            <thead>
+                                <tr className="bg-gray-100 text-left text-gray-600 uppercase text-sm">
+                                    <th className="py-2 px-4 border border-gray-200">Titre</th>
+                                    <th className="py-2 px-4 border border-gray-200">Description</th>
+                                    <th className="py-2 px-4 border border-gray-200">Ville</th>
+                                    <th className="py-2 px-4 border border-gray-200">Pays</th>
+                                    <th className="py-2 px-4 border border-gray-200">Adresse</th>
+                                    <th className="py-2 px-4 border border-gray-200">Prix</th>
+                                    <th className="py-2 px-4 border border-gray-200">Personnes</th>
+                                    <th className="py-2 px-4 border border-gray-200">Actions</th> 
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {properties.map((propertie, index) => (
+                                <tr
+                                    key={index}
+                                    className={`hover:bg-gray-50 ${
+                                    index % 2 === 0 ? "bg-white" : "bg-gray-50"
+                                    }`}
+                                >
+                                    <td className="py-2 px-4 border border-gray-200">{propertie.title}</td>
+                                    <td className="py-2 px-4 border border-gray-200">
+                                    {propertie.description}
+                                    </td>
+                                    <td className="py-2 px-4 border border-gray-200">{propertie.city}</td>
+                                    <td className="py-2 px-4 border border-gray-200">{propertie.country}</td>
+                                    <td className="py-2 px-4 border border-gray-200">{propertie.address}</td>
+                                    <td className="py-2 px-4 border border-gray-200">
+                                    {propertie.price.toString()} €
+                                    </td>
+                                    <td className="py-2 px-4 border border-gray-200">
+                                    {propertie.max_guests}
+                                    </td>
+                                    <td className="py-2 px-4 border border-gray-200">
+                                        <button onClick={() => {SupprimerProperty(propertie.id.toString())}} className="bg-blue-500 hover:bg-blue-600 w-28 h-10 rounded-md text-white">Supprimer</button>
+                                    </td>
+                                </tr>
+                                ))}
+                            </tbody>
+                        </table> : 
+                        <p>Aucune propriétées trouvées</p>
+                    }
+                </div>
             </div>
         </div>
     )

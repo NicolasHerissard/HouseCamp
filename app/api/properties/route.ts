@@ -1,19 +1,23 @@
 import { PrismaClient } from "@prisma/client";
 import { Decimal } from "@prisma/client/runtime/library";
 import { NextResponse } from "next/server";
+import { Equipment } from "@/lib/db/models/equipment";
+import { EquipmentProperties } from "@/lib/db/models/equipmentProperties";
 
 const prisma = new PrismaClient();
 
 export type Property = {
-    id: number,
-    user_id: number,
-    title: string,
-    description: string,
-    city: string,
-    country: string,
-    price: Decimal,
-    max_guests: number,
-    created_at: Date,
+    id?: number,
+    user_id?: number,
+    title?: string,
+    description?: string,
+    city?: string,
+    country?: string,
+    address?: string,
+    price?: Decimal,
+    max_guests?: number,
+    created_at?: Date,
+    equipments?: Equipment[],
 }
 
 export async function GET() {
@@ -31,6 +35,7 @@ export async function GET() {
             description: p.description,
             city: p.city,
             country: p.country,
+            address: p.address,
             price: p.price,
             max_guests: p.max_guests,
             created_at: p.created_at,
@@ -46,7 +51,7 @@ export async function GET() {
 export async function POST(req: Request) {
     try {
         
-        const { user_id, title, description, city, country, price, max_guests } = await req.json();
+        const { user_id, title, description, city, country, address, price, max_guests } = await req.json();
         const newProperty = await prisma.properties.create({
             data: {
                 user_id: user_id,
@@ -54,6 +59,7 @@ export async function POST(req: Request) {
                 description: description,
                 city: city,
                 country: country,
+                address: address,
                 price: parseFloat(price),
                 max_guests: parseInt(max_guests),
             }

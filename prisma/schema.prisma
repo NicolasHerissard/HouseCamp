@@ -36,6 +36,7 @@ model Properties {
   description String @db.Text
   city String
   country String
+  address String
   price Decimal
   max_guests Int
   created_at DateTime @default(now())
