@@ -1,34 +1,38 @@
 'use client'
 
 import Header from "../components/header";
-import franceIMG from '../../asset/france.jpg';
 import { useState, useEffect } from "react";
 import { getProperties } from "@/lib/db/properties";
 import { Property } from "../api/properties/route";
-import { UserDetails } from "@/lib/useUser";
+import { Equipment } from "@/lib/db/models/equipment";
+import { getAllEquipments } from "@/lib/db/equipments/getAll";
 
 export default function Results() {
 
     const [properties, setProperties] = useState<Property[]>([])
-    
-    let items = [
-        {name: "test"},
-        {name: "test"},
-        {name: "test"},
-        {name: "test"},
-        {name: "test"},
-        {name: "test"},
-        {name: "test"},
-        {name: "test"},
-    ];
+    const [equipments, setEquipments] = useState<Equipment[]>([])
 
-    async function fetchProperties() {
-        const data = await getProperties()
+    const [sortASC, setSortASC] = useState(false)
+    const [sortDESC, setSortDESC] = useState(false)
+    const [city, setCity] = useState("")
+
+    async function fetchProperties(sortASC: boolean, sortDESC: boolean, city: string) {
+        const data = await getProperties(city)
         setProperties(data)
     }
 
+    async function fetchEquipments() {
+        const data = await getAllEquipments()
+        setEquipments(data)
+    }
+
+    async function handleSearch() {
+        fetchProperties(sortASC, sortDESC, city)
+    }
+
     useEffect(() => {
-        fetchProperties()
+        fetchProperties(false, false, city)
+        fetchEquipments()
     }, [])
 
     return (
@@ -36,7 +40,7 @@ export default function Results() {
             <Header />
             <div className="flex justify-center items-center p-20">
                 <div className="border border-black rounded p-4 space-x-4 flex items-center">
-                    <input className="border border-black rounded-md h-14 p-2 text-xl" type="text" placeholder="Lieu"/>
+                    <input value={city} onChange={(e) => {setCity(e.target.value); fetchProperties(false, false, e.target.value)}} className="border border-black rounded-md h-14 p-2 text-xl" type="text" placeholder="Lieu"/>
                     <input className="border border-black rounded-md h-14 p-2 text-xl" type="date" placeholder="Départ"/>
                     <input className="border border-black rounded-md h-14 p-2 text-xl" type="date" placeholder="Arrivé"/>
                     <input className="border border-black rounded-md h-14 p-2 text-xl" type="number" placeholder="Personnes"/>
@@ -45,23 +49,19 @@ export default function Results() {
             </div>
             <div className="flex p-6 h-screen">
                 {/* Filtre fixe */}
-                <div className="border border-black w-1/6 h-screen sticky top-0 rounded-lg p-10 space-y-5 text-xl">
+                <div className="border border-black w-1/6 h-auto sticky top-0 rounded-lg p-10 space-y-5">
                     <div className="space-x-3">
-                        <input name="radio" type="radio" placeholder="croissant"/>
+                        <input onChange={(e) => {setSortDESC(e.target.checked); setSortASC(false)}} name="radio" type="radio" placeholder="croissant"/>
                         <label htmlFor="">Plus récent</label>
                     </div>
                     <div className="space-x-3">
-                        <input name="radio" type="radio" placeholder="décroissant"/>
+                        <input onChange={(e) => {setSortASC(e.target.checked); setSortDESC(false)}} name="radio" type="radio" placeholder="décroissant"/>
                         <label htmlFor="">Moins récent</label>
-                    </div>
-                    <div className="space-x-3">
-                        <input type="checkbox" placeholder="piscine"/>
-                        <label htmlFor="">Avec piscine</label>
                     </div>
                     <div className="">
                         Par équipements :
                         {
-                            items.map((i, index) => {
+                            equipments.map((i, index) => {
                                 return (
                                     <div key={index} className="space-x-3">
                                         <input type="checkbox" name="" id="" placeholder={i.name}/>
@@ -72,7 +72,7 @@ export default function Results() {
                         }
                     </div>
                     <div className="flex items-center justify-center">
-                        <button className="bg-blue-500 w-32 h-10 rounded-md text-white" type="submit">Appliquer</button>
+                        <button onClick={handleSearch} className="bg-blue-500 w-32 h-10 rounded-md text-white" type="submit">Appliquer</button>
                     </div>
                 </div>
                 {/* Résultats */}
@@ -85,7 +85,7 @@ export default function Results() {
                                     <p className="text-sm text-gray-500">{i.description}</p>
                                 </div>
                                 <div className="flex-1 flex flex-col">
-                                    <span className="text-lg font-medium text-gray-700">{i.price.toString()} € / nuit</span>
+                                    <span className="text-lg font-medium text-gray-700">{i?.price?.toString()} € / nuit</span>
                                     <span className="text-sm text-gray-500">{i.city}, {i.country}</span>
                                 </div>
                                 <div className="flex flex-col text-right">

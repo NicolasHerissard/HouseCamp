@@ -2,7 +2,7 @@ import { PrismaClient } from "@prisma/client";
 import { Decimal } from "@prisma/client/runtime/library";
 import { NextResponse } from "next/server";
 import { Equipment } from "@/lib/db/models/equipment";
-import { EquipmentProperties } from "@/lib/db/models/equipmentProperties";
+import { NextApiRequest } from "next";
 
 const prisma = new PrismaClient();
 
@@ -20,9 +20,17 @@ export type Property = {
     equipments?: Equipment[],
 }
 
-export async function GET() {
+export async function GET(req: NextApiRequest) {
     try {
+
+        const city = req.query
+
+        console.log(city)
+
         const allProperty = await prisma.properties.findMany({
+            where: {
+                city: city
+            },
             orderBy: {
                 created_at: 'desc'
             }

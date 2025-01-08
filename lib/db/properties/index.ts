@@ -2,11 +2,10 @@
 
 import axios from "axios"
 
-export async function getProperties() {
+export async function getProperties(city: string) {
     try {
-        let res = await axios.get("http://localhost:3000/api/properties", {method: "GET"});
+        let res = await axios.get(`http://localhost:3000/api/properties?city=${city}`, {method: "GET"});
         let data = await res.data
-        console.log("Données récupérées");
         return data;
     }
     catch (err: any) {
