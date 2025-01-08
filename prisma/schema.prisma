@@ -37,7 +37,7 @@ model Properties {
   city String
   country String
   address String
-  price Decimal
+  price Int
   max_guests Int
   created_at DateTime @default(now())
   bookings Bookings[]
@@ -53,7 +53,6 @@ model Bookings {
   check_in_date DateTime
   check_out_date DateTime
   total_price Decimal
-  status String
   created_at DateTime
 }
 

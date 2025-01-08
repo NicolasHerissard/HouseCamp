@@ -14,7 +14,7 @@ export type Property = {
     city?: string,
     country?: string,
     address?: string,
-    price?: Decimal,
+    price?: number,
     max_guests?: number,
     created_at?: Date,
     equipments?: Equipment[],
