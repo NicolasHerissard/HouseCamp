@@ -44,8 +44,12 @@ export default function Details({params}: {params: {id: string}}) {
         <div>
             <Header />
             <div className="flex flex-col items-center p-20">
-                <div className="flex flex-col border p-5 w-full h-full">
-                    <h1 className="text-2xl font-bold mb-2">{property?.title}</h1>
+                <div className="flex flex-col border p-5 w-full h-full rounded-lg">
+                    <div className="flex flex-row justify-between">
+                        <h1 className="text-2xl font-bold mb-2">{property?.title}</h1>
+                        <h2>Propriétaire : {property?.user?.name}</h2>
+                        <h2>Email : {property?.user?.email}</h2>
+                    </div>
                     <div className="mt-4">
                         <h2 className="text-lg font-semibold">Informations</h2>
                         <p className="text-gray-700 mt-2">

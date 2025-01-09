@@ -36,7 +36,13 @@ export async function GET(req: Request, { params }: { params: { id: string } }) 
                             }
                         }
                     }
-                }
+                },
+                user: {
+                    select: {
+                        name: true,
+                        email: true,
+                    }
+                },
             },
             where: {
                 id: id,
@@ -57,7 +63,8 @@ export async function GET(req: Request, { params }: { params: { id: string } }) 
             equipments: properties?.EquipmentProperties?.map(e => ({
                 id: e.equipment_id,
                 name: e.equipment?.name
-            })) || []
+            })) || [],
+            user: properties?.user,
        }
 
         return NextResponse.json(property);

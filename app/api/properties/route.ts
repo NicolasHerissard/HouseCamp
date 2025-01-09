@@ -3,6 +3,7 @@ import { Decimal } from "@prisma/client/runtime/library";
 import { NextResponse } from "next/server";
 import { Equipment } from "@/lib/db/models/equipment";
 import { NextApiRequest } from "next";
+import { UserDetails } from "@/lib/useUser";
 
 const prisma = new PrismaClient();
 
@@ -18,6 +19,10 @@ export type Property = {
     max_guests?: number,
     created_at?: Date,
     equipments?: Equipment[],
+    user?: {
+        name: string,
+        email: string
+    }
 }
 
 export async function GET(req: NextApiRequest) {
