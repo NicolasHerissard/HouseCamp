@@ -40,7 +40,7 @@ export default function Register() {
     }
 
     return (
-        <div className="flex min-h-screen items-center justify-center bg-gray-100">
+        <div className="flex min-h-screen items-center justify-center bg-img-login bg-cover bg-no-repeat">
             <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-lg">
                 <div className="text-center">
                 <h2 className="text-2xl font-bold text-gray-900">S'inscrire</h2>

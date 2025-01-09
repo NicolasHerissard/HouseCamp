@@ -43,13 +43,13 @@ export default function Login() {
     }
 
     return (
-        <div className="flex min-h-screen items-center justify-center bg-gray-100">
+        <div className="flex min-h-screen items-center justify-center bg-img-login bg-cover bg-no-repeat filter">
             <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-lg">
                 <div className="text-center">
-                <h2 className="text-2xl font-bold text-gray-900">Se connecter</h2>
-                <p className="mt-2 text-sm text-gray-600">
-                    Connectez-vous à votre compte
-                </p>
+                    <h2 className="text-2xl font-bold text-gray-900">Se connecter</h2>
+                    <p className="mt-2 text-sm text-gray-600">
+                        Connectez-vous à votre compte
+                    </p>
                 </div>
                 <div className="flex flex-col items-center justify-center">
                     <p>{error}</p>
