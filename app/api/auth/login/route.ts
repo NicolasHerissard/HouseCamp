@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server"
 import { PrismaClient } from "@prisma/client";
+import bcrypt from 'bcryptjs'
 
 const prisma = new PrismaClient();
 
@@ -11,12 +12,17 @@ export async function POST(req: Request) {
         const user = await prisma.user.findFirst({
             where: {
                 email: email,
-                password: password
             }
         })
 
         if (!user) {
             throw new Error("Utilisateur non trouvé");
+        }
+
+        let passwordOK = await bcrypt.compare(password, user.password);
+
+        if (!passwordOK) {
+            throw new Error("Mot de passe incorrect");
         }
 
         return NextResponse.json(user, {status: 200});

@@ -14,22 +14,26 @@ export default function Register() {
     const router = useRouter()
 
     async function handleRegister() {
-        await postRegister(name, email, password)
+        if(name != "" && email != "" && password != "") {
+            await postRegister(name, email, password)
 
-        setName('')
-        setEmail('')
-        setPassword('')
+            setName('')
+            setEmail('')
+            setPassword('')
 
-        router.push('/login')
+            router.push('/login')
+        } else {
+            
+        }
     }
 
     return (
         <div className="flex min-h-screen items-center justify-center bg-gray-100">
             <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-lg">
                 <div className="text-center">
-                <h2 className="text-2xl font-bold text-gray-900">Se connecter</h2>
+                <h2 className="text-2xl font-bold text-gray-900">S'inscrire</h2>
                 <p className="mt-2 text-sm text-gray-600">
-                    Connectez-vous à votre compte
+                    Inscrivez-vous !
                 </p>
                 </div>
                 <div className="rounded-md shadow-sm space-y-4">
@@ -80,9 +84,9 @@ export default function Register() {
                 </div>
                 <div className="text-center">
                 <p className="text-sm text-gray-600">
-                    Pas encore de compte?{' '}
-                    <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">
-                    Inscrivez-vous
+                    Vous-avez déjà un compte?{' '}
+                    <a href="/login" className="font-medium text-indigo-600 hover:text-indigo-500">
+                    Connectez-vous
                     </a>
                 </p>
                 </div>
