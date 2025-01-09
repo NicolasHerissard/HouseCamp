@@ -12,18 +12,30 @@ export default function Register() {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const router = useRouter()
+    const [error, setError] = useState("")
 
     async function handleRegister() {
-        if(name != "" && email != "" && password != "") {
-            await postRegister(name, email, password)
-
-            setName('')
-            setEmail('')
-            setPassword('')
-
-            router.push('/login')
-        } else {
-            
+        try {
+            if(name != "" && email != "" && password != "") {
+                await postRegister(name, email, password)
+    
+                setName('')
+                setEmail('')
+                setPassword('')
+    
+                router.push('/login')
+            } else {
+                setError("Veuillez remplir tous les champs")
+                setTimeout(() => {
+                    setError('')
+                }, 5000)
+            }
+        }
+        catch (err: any) {
+            setError(err.message)
+            setTimeout(() => {
+                setError('')
+            }, 5000)
         }
     }
 
@@ -35,6 +47,9 @@ export default function Register() {
                 <p className="mt-2 text-sm text-gray-600">
                     Inscrivez-vous !
                 </p>
+                </div>
+                <div className="flex flex-col items-center justify-center">
+                    <p>{error}</p>
                 </div>
                 <div className="rounded-md shadow-sm space-y-4">
                     <div>

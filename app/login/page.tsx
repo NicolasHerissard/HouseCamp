@@ -13,22 +13,32 @@ export default function Login() {
 
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
+    const [error, setError] = useState("")
 
     async function handleLogin(e: FormEvent) {
-        e.preventDefault()
-        const res = await signIn('credentials', {
-            redirect: false,
-            email: email,
-            password: password,
-        })
-    
-        if(!res?.error) {
-            console.log("Logged In !")
-            let u = await getUserDetails(email)
-            localStorage.setItem("user", JSON.stringify(u))
-            router.push("/results")
+        if(email != "" && password != "") {
+            e.preventDefault()
+            const res = await signIn('credentials', {
+                redirect: false,
+                email: email,
+                password: password,
+            })
+        
+            if(!res?.error) {
+                let u = await getUserDetails(email)
+                localStorage.setItem("user", JSON.stringify(u))
+                router.push("/results")
+            } else {
+                setError(res.error)
+                setTimeout(() => {
+                    setError('')
+                }, 5000)
+            }
         } else {
-            console.log("Login Failed")
+            setError("Veuillez remplir tous les champs")
+            setTimeout(() => {
+                setError('')
+            }, 5000)
         }
     }
 
@@ -40,6 +50,9 @@ export default function Login() {
                 <p className="mt-2 text-sm text-gray-600">
                     Connectez-vous à votre compte
                 </p>
+                </div>
+                <div className="flex flex-col items-center justify-center">
+                    <p>{error}</p>
                 </div>
                 <div className="rounded-md shadow-sm space-y-4">
                     <div>
