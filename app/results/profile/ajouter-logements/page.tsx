@@ -8,6 +8,8 @@ import { getPropertiesById } from "@/lib/db/users/properties/byId"
 import { UserDetails } from "@/lib/useUser"
 import { addProperty } from "@/lib/db/properties/ajouter"
 import { deleteProperty } from "@/lib/db/properties/supprimer"
+import { getAllEquipments } from "@/lib/db/equipments/getAll"
+import { Equipment } from "@/lib/db/models/equipment"
 
 export default function AjouterLogements() {
 
@@ -22,6 +24,7 @@ export default function AjouterLogements() {
     const [picture, setPicture] = useState("")
 
     const [properties, setProperties] = useState<Property[]>([])
+    const [equipments, setEquipments] = useState<Equipment[]>([])
     const user: UserDetails = JSON.parse(localStorage.getItem('user') as string)
 
     async function fetchProperties() {
@@ -46,6 +49,12 @@ export default function AjouterLogements() {
         }
     }
 
+    async function ListesEquipments() {
+        const data = await getAllEquipments()
+        setEquipments(data)
+        console.log(data)
+    }
+
     async function SupprimerProperty(id: string) {
         await deleteProperty(parseInt(id))
         fetchProperties()
@@ -59,6 +68,7 @@ export default function AjouterLogements() {
 
     useEffect(() => {
         fetchProperties()
+        ListesEquipments()
     }, [])
 
     return (
@@ -184,6 +194,24 @@ export default function AjouterLogements() {
                     </div>
                     <div>
                         <label
+                        htmlFor="equipments"
+                        className="block text-sm font-medium text-gray-700"
+                        >
+                        Equipements
+                        </label>
+                        <select name="equipments" id="equipments" className="mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                            <option value="">Sélectionnez un équipement</option>
+                            {equipments.length > 0 ? equipments.map((e, index) => {
+                                return (
+                                    <option key={index} value={e.id}>{e.name}</option>
+                                )
+                                }) : 
+                                <option value=""></option>
+                            }
+                        </select>
+                    </div>
+                    <div>
+                        <label
                         htmlFor="picture"
                         className="block text-sm font-medium text-gray-700"
                         >
@@ -247,7 +275,7 @@ export default function AjouterLogements() {
                                     {propertie.max_guests}
                                     </td>
                                     <td className="py-2 px-4 border border-gray-200">
-                                        <button onClick={() => {SupprimerProperty(propertie.id.toString())}} className="bg-blue-500 hover:bg-blue-600 w-28 h-10 rounded-md text-white">Supprimer</button>
+                                        <button onClick={() => {SupprimerProperty(propertie?.id?.toString()!)}} className="bg-blue-500 hover:bg-blue-600 w-28 h-10 rounded-md text-white">Supprimer</button>
                                     </td>
                                 </tr>
                                 ))}

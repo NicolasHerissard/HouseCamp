@@ -9,9 +9,11 @@ export default function ProfileLayout({ children }: { children: React.ReactNode 
     const user: UserDetails = JSON.parse(localStorage.getItem('user') as string)
 
     return (
-        <div className="">
+        <div className="bg-slate-100">
             <Header />
-            <h1 className="text-4xl font-bold flex justify-center items-center">Bienvenue {user.name} !</h1>
+            <div className="p-7">
+                <h1 className="text-4xl font-bold flex justify-center items-center">Bienvenue {user.name} !</h1>
+            </div>
             <div className="flex">
                 <div>
                     <Sidebar />
