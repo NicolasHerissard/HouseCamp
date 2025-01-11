@@ -22,6 +22,12 @@
       {
         "duplicate-id-active": "off"
       }
+    ],
+    "axe/forms": [
+      "default",
+      {
+        "label": "off"
+      }
     ]
   }
 }
