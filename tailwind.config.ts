@@ -12,7 +12,8 @@ const config: Config = {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
-        "img-login": "url('../asset/img_login.jpg')"
+        "img-login": "url('../asset/img_login.jpg')",
+        "img-home": "url('../asset/f.webp')",
       },
     },
   },
