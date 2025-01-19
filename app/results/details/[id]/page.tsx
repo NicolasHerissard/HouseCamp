@@ -43,6 +43,28 @@ export default function Details({params}: {params: {id: string}}) {
     return (
         <div>
             <Header />
+            <div className="p-4 space-y-6">
+                <div className="text-xl font-semibold text-gray-700">Images de la propriété</div>
+                
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                    {property?.propertiesImage?.length ? (
+                        property?.propertiesImage?.map((image, index) => (
+                            <div key={index} className="relative overflow-hidden rounded-lg shadow-lg">
+                                <img
+                                    src={image.image}
+                                    alt={`Image ${index + 1}`}
+                                    className="w-full h-64 object-cover transition-transform duration-300 hover:scale-105"
+                                />
+                                <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white p-2 text-sm">
+                                    Image {index + 1}
+                                </div>
+                            </div>
+                        ))
+                    ) : (
+                        <div className="col-span-full text-center text-gray-500">Aucune image disponible</div>
+                    )}
+                </div>
+            </div>
             <div className="flex flex-col items-center p-20">
                 <div className="flex flex-col border p-5 w-full h-full rounded-lg">
                     <div className="flex flex-row justify-between">

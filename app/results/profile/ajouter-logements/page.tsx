@@ -10,6 +10,7 @@ import { addProperty } from "@/lib/db/properties/ajouter"
 import { deleteProperty } from "@/lib/db/properties/supprimer"
 import { getAllEquipments } from "@/lib/db/equipments/getAll"
 import { Equipment } from "@/lib/db/models/equipment"
+import { createPropertiesImage } from "@/lib/db/propertiesImage"
 
 export default function AjouterLogements() {
 
@@ -24,6 +25,7 @@ export default function AjouterLogements() {
     const [picture, setPicture] = useState("")
 
     const [properties, setProperties] = useState<Property[]>([])
+    const [property, setProperty] = useState([])
     const [equipments, setEquipments] = useState<Equipment[]>([])
     const user: UserDetails = JSON.parse(localStorage.getItem('user') as string)
 
@@ -34,7 +36,7 @@ export default function AjouterLogements() {
 
     async function AjouterProperty() {
         if(name.length > 0 && description.length > 0 && city.length > 0 && country.length > 0 && price > 0 && maxGuests > 0) {
-            await addProperty(user.id, name, description, city, country, address, price, maxGuests)
+            let res = await addProperty(user.id, name, description, city, country, address, price, maxGuests)
             fetchProperties()
             setName("")
             setDescription("")
@@ -43,9 +45,26 @@ export default function AjouterLogements() {
             setAddress("")
             setPrice(0)
             setMaxGuests(0)
+            
+            await createPropertiesImage(res.id, picture)
         }
         else {
             
+        }
+    }
+
+    async function AjouterImage(event: React.ChangeEvent<HTMLInputElement>) {
+        const file = event.target.files![0]
+        if(file) {
+            let reader = new FileReader()
+
+            reader.onload = () => {
+                setPicture(reader.result as string)
+                console.log(reader.result)
+            }
+
+            reader.readAsDataURL(file)
+
         }
     }
 
@@ -218,6 +237,8 @@ export default function AjouterLogements() {
                         Photo du logement
                         </label>
                         <input
+                        onChange={AjouterImage}
+                        accept="image/*"
                         type="file"
                         name="picture"
                         id="picture"

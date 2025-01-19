@@ -44,8 +44,5 @@ export async function GET(req: Request, { params }: { params: { id: string } }) 
     }
     catch (err: any) {
         console.error("Erreur API:", err.message);
-        return NextResponse.json({
-            error: err.message
-        })
     }
 }

@@ -43,6 +43,7 @@ export async function GET(req: Request, { params }: { params: { id: string } }) 
                         email: true,
                     }
                 },
+                propertiesImage: true
             },
             where: {
                 id: id,
@@ -65,6 +66,12 @@ export async function GET(req: Request, { params }: { params: { id: string } }) 
                 name: e.equipment?.name
             })) || [],
             user: properties?.user,
+            propertiesImage: properties?.propertiesImage.map((image) => ({
+                id: image.id,
+                property_id: image.property_id,
+                image: image.image,
+                created_at: image.created_at,
+            }))
        }
 
         return NextResponse.json(property);
@@ -93,6 +100,39 @@ export async function DELETE(req: Request, { params }: { params: { id: string } 
     }
     catch (err: any) {
         console.error("Erreur lors de la suppression des propriétés :", err.message);
+        return NextResponse.json({ error: 'Erreur interne du serveur' }, { status: 500 });
+    }
+}
+
+export async function PUT(req: Request, { params }: { params: { id: string } }) {
+
+    try {
+        const id = parseInt(params.id, 10);
+        const { title, description, city, country, address, price, max_guests } = await req.json();
+
+        if (isNaN(id)) {
+            return NextResponse.json({ error: 'Id non valide' }, { status: 400 });
+        }
+
+        let updateProperties = await prisma.properties.update({
+            data: {
+                title: title,
+                description: description,
+                city: city,
+                country: country,
+                address: address,
+                price: parseFloat(price),
+                max_guests: parseInt(max_guests),
+            },
+            where: {
+                id: id,
+            }
+        })
+
+        return NextResponse.json(updateProperties);
+    }
+    catch (err: any) {
+        console.error("Erreur lors de la modification des propriétés :", err.message);
         return NextResponse.json({ error: 'Erreur interne du serveur' }, { status: 500 });
     }
 }

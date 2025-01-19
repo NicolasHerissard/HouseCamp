@@ -42,6 +42,15 @@ model Properties {
   created_at DateTime @default(now())
   bookings Bookings[]
   EquipmentProperties EquipmentProperties[]
+  propertiesImage PropertiesImage[]
+}
+
+model PropertiesImage {
+  id Int @id @default(autoincrement())
+  property_id Int @unique
+  image String @db.LongText
+  created_at DateTime @default(now())
+  properties Properties @relation(fields: [property_id], references: [id])
 }
 
 model Bookings {
