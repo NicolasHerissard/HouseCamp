@@ -25,16 +25,17 @@ export type Property = {
     propertiesImage?: PropertiesImage[],
 }
 
-export async function GET(req: NextApiRequest) {
+export async function GET(req: Request) {
     try {
 
-        const city = req.query
-
+        const city = req.url.split('=')[1]
         console.log(city)
 
         const allProperty = await prisma.properties.findMany({
             where: {
-                city: city
+                city: {
+                    contains: city
+                }
             },
             orderBy: {
                 created_at: 'desc'
