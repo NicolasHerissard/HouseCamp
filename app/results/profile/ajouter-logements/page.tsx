@@ -60,7 +60,6 @@ export default function AjouterLogements() {
 
             reader.onload = () => {
                 setPicture(reader.result as string)
-                console.log(reader.result)
             }
 
             reader.readAsDataURL(file)
@@ -277,8 +276,9 @@ export default function AjouterLogements() {
                             <tbody>
                                 {properties.map((propertie, index) => (
                                 <tr
+                                    onClick={() => window.location.href = (`/results/profile/modifier-logements/${propertie.id}`)}
                                     key={index}
-                                    className={`hover:bg-gray-50 ${
+                                    className={`hover:bg-gray-50 cursor-pointer ${
                                     index % 2 === 0 ? "bg-white" : "bg-gray-50"
                                     }`}
                                 >

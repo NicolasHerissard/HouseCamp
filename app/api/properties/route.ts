@@ -29,7 +29,8 @@ export async function GET(req: Request) {
     try {
 
         const city = req.url.split('=')[1]
-        console.log(city)
+        // const sortDirection = req.url.split('=')[2]
+        // console.log(sortDirection)
 
         const allProperty = await prisma.properties.findMany({
             where: {

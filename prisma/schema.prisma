@@ -26,6 +26,19 @@ model User {
   Session Session[]
 
   @@map("users")
+  messageSender Messages[] @relation("sender")
+  messageReceiver Messages[] @relation("receiver")
+}
+
+model Messages {
+  id Int @id @default(autoincrement())
+  sender_id Int
+  receiver_id Int
+  content String @db.Text
+  created_at DateTime @default(now())
+
+  sender User @relation(fields: [sender_id], references: [id], name: "sender")
+  receiver User @relation(fields: [receiver_id], references: [id], name: "receiver")
 }
 
 model Properties {

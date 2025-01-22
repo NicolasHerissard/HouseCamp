@@ -57,7 +57,7 @@ export default function Sidebar() {
                         </a>
                     </li>
                     <li>
-                        <a href="#" className="text-blue-500 hover:underline">
+                        <a href="/results/profile/messages" className="text-blue-500 hover:underline">
                         Mes messages
                         </a>
                     </li>

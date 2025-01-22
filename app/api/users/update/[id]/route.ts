@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server"
 import { PrismaClient } from "@prisma/client";
+import { UserDetails } from "@/lib/useUser";
 
 const prisma = new PrismaClient();
 
@@ -11,7 +12,7 @@ export async function PUT(req: Request, {params}: {params: {id: string}}) {
         }
 
         const { name, email } = await req.json();
-        await prisma.user.update({
+        let user = await prisma.user.update({
             where: {
                 id: id
             },
@@ -21,7 +22,16 @@ export async function PUT(req: Request, {params}: {params: {id: string}}) {
             }
         })
 
-        return NextResponse.json({ message: "User updated successfully" });
+        let currentUser: UserDetails = {
+            id: user.id,
+            name: user.name,
+            email: user.email,
+            password: user.password,
+            role: user.role,
+            created_at: user.created_at
+        }
+
+        return NextResponse.json(currentUser);
     }
     catch (err: any) {
         return new NextResponse("Erreur méthode PUT : " + err.message, {

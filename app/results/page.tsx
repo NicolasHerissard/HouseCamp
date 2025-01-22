@@ -16,12 +16,11 @@ export default function Results() {
     const user: UserDetails = JSON.parse(localStorage.getItem('user')!)
     const router = useRouter()
 
-    const [sortASC, setSortASC] = useState(false)
-    const [sortDESC, setSortDESC] = useState(false)
+    const [sortDirection, setSortDirection] = useState<string>("asc")
     const [city, setCity] = useState("")
 
-    async function fetchProperties(sortASC: boolean, sortDESC: boolean, city: string) {
-        const data = await getProperties(city)
+    async function fetchProperties(sortDirection: string, city: string) {
+        const data = await getProperties(sortDirection, city)
         setProperties(data)
     }
 
@@ -31,12 +30,12 @@ export default function Results() {
     }
 
     async function handleSearch() {
-        fetchProperties(sortASC, sortDESC, city)
+        fetchProperties(sortDirection, city)
     }
 
     useEffect(() => {
         if(user.id != null) {
-            fetchProperties(false, false, city)
+            fetchProperties(sortDirection, city)
             fetchEquipments()
         } else {
             router.push('/login')
@@ -53,7 +52,7 @@ export default function Results() {
                 value={city}
                 onChange={(e) => {
                 setCity(e.target.value);
-                fetchProperties(false, false, e.target.value);
+                fetchProperties(sortDirection, e.target.value);
                 }}
                 className="border border-gray-300 rounded-md h-12 p-3 text-lg w-52 focus:ring-2 focus:ring-blue-500 focus:outline-none"
                 type="text"
@@ -106,8 +105,7 @@ export default function Results() {
                 <div className="space-x-3">
                 <input
                     onChange={(e) => {
-                    setSortDESC(e.target.checked);
-                    setSortASC(false);
+                    setSortDirection(e.target.checked ? "desc" : "asc");
                     }}
                     name="radio"
                     type="radio"
@@ -117,8 +115,7 @@ export default function Results() {
                 <div className="space-x-3">
                 <input
                     onChange={(e) => {
-                    setSortASC(e.target.checked);
-                    setSortDESC(false);
+                    setSortDirection(e.target.checked ? "asc" : "desc");
                     }}
                     name="radio"
                     type="radio"

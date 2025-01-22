@@ -5,7 +5,6 @@ export async function getUsers() {
     try {
         let res = await axios.get("http://localhost:3000/api/users", {method: "GET"});
         let data = await res.data
-        console.log("Données récupérées");
         return data;
     }
     catch (err: any) {

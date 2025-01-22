@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server"
 import { PrismaClient } from "@prisma/client";
+import { UserDetails } from "@/lib/useUser";
 
 const prisma = new PrismaClient();
 
@@ -7,7 +8,16 @@ export async function GET() {
     try {
         const allUsers = await prisma.user.findMany();
 
-        return NextResponse.json(allUsers);
+        const users: UserDetails[] = allUsers.map(u => ({
+            id: u.id,
+            name: u.name,
+            email: u.email,
+            password: u.password,
+            role: u.role,
+            created_at: u.created_at
+        }))
+
+        return NextResponse.json(users);
     }
     catch (err: any) {
         return new NextResponse("Erreur méthode GET : " + err.message);
