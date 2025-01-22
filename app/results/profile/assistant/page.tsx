@@ -1,17 +1,17 @@
 'use client'
 
-import { AIConfig } from "@/lib/ia"
+//import { AIConfig } from "@/lib/ia"
 
 export default function Assistant() {
 
     async function testAI() {
-        const res = await AIConfig.completions.create({
-            model: 'gpt-3.5-turbo-instruct',
-            prompt: "Salut, comment vas tu?",
-            max_tokens: 10,
-        })
+        // const res = await AIConfig.completions.create({
+        //     model: 'gpt-3.5-turbo-instruct',
+        //     prompt: "Salut, comment vas tu?",
+        //     max_tokens: 10,
+        // })
 
-        console.log(res.choices[0].text)
+        // console.log(res.choices[0].text)
     }
 
     return (
