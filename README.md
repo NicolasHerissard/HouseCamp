@@ -1,36 +1,64 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# HouseCamp
 
-## Getting Started
+HouseCamp est une application web développée avec [Next.js](https://nextjs.org/) qui permet aux utilisateurs de gérer des logements, d'envoyer des messages et d'interagir avec d'autres fonctionnalités liées à la gestion immobilière.
 
-First, run the development server:
+## Fonctionnalités
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **Gestion des logements** : Ajouter, modifier et supprimer des logements.
+- **Messagerie en temps réel** : Envoyer et recevoir des messages grâce à un système de WebSocket.
+- **Support multi-utilisateurs** : Gestion des utilisateurs et des propriétés associées.
+- **Interface utilisateur moderne** : Utilisation de Tailwind CSS pour un design réactif et épuré.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Structure du projet
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Voici un aperçu de la structure principale du projet :
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+### Dossiers principaux
 
-## Learn More
+- **`app/`** : Contient les pages et composants principaux de l'application.
+- **`lib/`** : Contient les fonctions utilitaires et les interactions avec la base de données.
+- **`prisma/`** : Définit le schéma de la base de données et les migrations associées.
+- **`public/`** : Contient les fichiers statiques comme les images.
 
-To learn more about Next.js, take a look at the following resources:
+## Technologies utilisées
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Framework** : [Next.js](https://nextjs.org/)
+- **Base de données** : [Prisma](https://www.prisma.io/) avec MySQL
+- **Style** : [Tailwind CSS](https://tailwindcss.com/)
+- **WebSocket** : [Socket.IO](https://socket.io/)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## Installation
 
-## Deploy on Vercel
+### Prérequis
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Node.js (version 16 ou supérieure)
+- MySQL
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+### Étapes
+
+1. Clonez le dépôt :
+
+   ```bash
+   git clone <url-du-repo>
+   cd HouseCamp
+   ```
+
+2. Installez les dépendances :
+
+   ```bash
+   npm install
+   ```
+
+3. Créez la base de données et les tables :
+
+   ```bash
+   npx prisma migrate dev
+   ```
+
+4. Démarrez l'application :
+
+   ```bash
+   npm run dev
+   ```
+
+Accédez à l'application à l'adresse `http://localhost:3000`.
